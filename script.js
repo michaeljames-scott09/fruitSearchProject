@@ -3,54 +3,56 @@ const suggestions = document.querySelector('.suggestions ul');
 
 const fruit = ['Apple', 'Apricot', 'Avocado 🥑', 'Banana', 'Bilberry', 'Blackberry', 'Blackcurrant', 'Blueberry', 'Boysenberry', 'Currant', 'Cherry', 'Coconut', 'Cranberry', 'Cucumber', 'Custard apple', 'Damson', 'Date', 'Dragonfruit', 'Durian', 'Elderberry', 'Feijoa', 'Fig', 'Gooseberry', 'Grape', 'Raisin', 'Grapefruit', 'Guava', 'Honeyberry', 'Huckleberry', 'Jabuticaba', 'Jackfruit', 'Jambul', 'Juniper berry', 'Kiwifruit', 'Kumquat', 'Lemon', 'Lime', 'Loquat', 'Longan', 'Lychee', 'Mango', 'Mangosteen', 'Marionberry', 'Melon', 'Cantaloupe', 'Honeydew', 'Watermelon', 'Miracle fruit', 'Mulberry', 'Nectarine', 'Nance', 'Olive', 'Orange', 'Clementine', 'Mandarine', 'Tangerine', 'Papaya', 'Passionfruit', 'Peach', 'Pear', 'Persimmon', 'Plantain', 'Plum', 'Pineapple', 'Pomegranate', 'Pomelo', 'Quince', 'Raspberry', 'Salmonberry', 'Rambutan', 'Redcurrant', 'Salak', 'Satsuma', 'Soursop', 'Star fruit', 'Strawberry', 'Tamarillo', 'Tamarind', 'Yuzu'];
 
-let displayFruit = []
-
 // Load Suggestions
 
 function loadList (array) {
-	const suggestBox = document.querySelector(".suggestions ul")
-	
+	let suggestBox = document.querySelector(".suggestions")
+	const newBox = document.createElement("ul")
 	for (const a of array) {
 		let li = document.createElement("li")
-		li.innerText = a
-		suggestBox.appendChild(li)
+		li.innerHTML = a
+		newBox.appendChild(li)
 	}
+	suggestBox.replaceChildren(newBox)
 }
 
 function search(str) {
 	let results = [];
-	// TODO
+
 	for ( const f of fruit) {
-		if (f.includes(str)) {
+		if (f.toLowerCase().includes(str.toLowerCase())) {
 			results.push(f)
 		}
 	}
 	return results;
 }
 
-function searchHandler(e) {
-	// TODO
+function searchHandler() {
+
+	showSuggestions(input.value)
 }
 
-function showSuggestions(results, inputVal) {
-
-	// TODO
-	if (input.value) {
-		displayFruit = search(inputVal)
+function showSuggestions(inputVal) {
+	let results = []
+	
+	if (input) {
+		results = search(inputVal)
 	}
 	else {
-		displayFruit = fruit
+		results = fruit
 	}
-	loadList(displayFruit)
+	loadList(results)
 	
 }
 
 function useSuggestion(e) {
 	// TODO
+	input.value = e.innerText
 }
 
-// Testing Functions
-showSuggestions()
+// Loading
+
+loadList(fruit)
 
 input.addEventListener('keyup', searchHandler);
 suggestions.addEventListener('click', useSuggestion);
